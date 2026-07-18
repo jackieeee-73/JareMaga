@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>じゃれマガ Best 365 管理画面</title><style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#64748b;--primary:#155e75;--primary2:#0e7490;--soft:#e6f4f7;--warn:#f59e0b;--danger:#b42318;--border:#dbe4ee;--shadow:0 10px 30px rgba(15,23,42,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;background:var(--bg);color:var(--text)}
+button,a,input,textarea,select{font:inherit}button,.btn{min-height:46px;border-radius:12px;border:1px solid var(--border);padding:10px 16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.primary{background:var(--primary);color:#fff;border-color:var(--primary)}.primary:hover{background:var(--primary2)}.secondary{background:#fff;color:var(--text)}.danger{background:#fff;color:var(--danger);border-color:#f0aaa4}.warn{background:var(--warn);color:#111827;border-color:#d97706}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:14px clamp(16px,4vw,48px);display:flex;justify-content:space-between;gap:16px;align-items:center}
+header h1{margin:0;font-size:clamp(22px,4vw,34px)}header p{margin:3px 0 0;color:var(--muted)}nav{display:flex;gap:8px;flex-wrap:wrap}
+main{max-width:980px;margin:24px auto;padding:0 16px 80px}.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:clamp(18px,4vw,32px);box-shadow:var(--shadow);margin-bottom:18px}.hidden{display:none!important}
+.meta{display:flex;gap:8px;flex-wrap:wrap}.badge{background:var(--primary);color:#fff;border-radius:999px;padding:6px 11px;font-weight:700;font-size:14px}.badge.soft{background:var(--soft);color:var(--primary)}
+.image-wrap{text-align:center;margin:18px 0}.image-wrap img{max-width:100%;max-height:420px;object-fit:contain;border-radius:16px}
+.audio-row,.button-row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.mission{margin:20px 0;padding:18px;border-radius:18px;background:linear-gradient(135deg,#ecfeff,#eef2ff);border:2px solid #99d7e2}.mission strong{display:block;color:#0f766e}.mission p{font-size:clamp(19px,2.5vw,25px);font-weight:800;margin:8px 0 0}
+.progress{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#eef6ff;border-radius:16px;padding:14px;margin:18px 0;flex-wrap:wrap}.timer{font-size:28px;font-variant-numeric:tabular-nums;font-weight:800}
+.story{font-family:Georgia,"Times New Roman",serif;font-size:clamp(20px,2.6vw,28px);line-height:1.9;white-space:pre-wrap;user-select:none}.story .word{display:inline;padding:2px 1px;border-radius:5px;cursor:pointer}.story .word.selected{background:#fde68a}
+.panel{margin-top:22px;padding-top:20px;border-top:2px solid var(--border)}.selection{min-height:52px;background:#f8fafc;border:1px dashed #94a3b8;border-radius:12px;padding:12px}.judge{font-size:18px;font-weight:700}.ok{color:#087443}.ng{color:#b42318}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stats>div{background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center}.stats span{display:block;color:var(--muted);font-size:13px}.stats strong{font-size:26px}
+.list{display:grid;gap:8px;margin-top:14px}.item{border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff;display:flex;justify-content:space-between;gap:12px;align-items:center}.item-main{display:flex;flex-direction:column;gap:4px}.item span{color:var(--muted);font-size:14px}.item-actions{display:flex;gap:8px;flex-shrink:0}
+input[type=text],input[type=search],input[type=file],textarea,select{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;background:#fff}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.form-grid label{display:flex;flex-direction:column;gap:6px;font-weight:700}.form-grid .wide{grid-column:1/-1}.form-grid small{font-weight:400;color:var(--muted)}
+dialog{width:min(900px,96vw);max-height:92vh;overflow:auto;border:none;border-radius:20px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.3)}dialog::backdrop{background:rgba(15,23,42,.5)}.dialog-head{display:flex;justify-content:space-between;align-items:center}
+.notice{padding:12px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa}.admin-direct{font-family:monospace;background:#f8fafc;padding:2px 6px;border-radius:6px}
+@media(max-width:700px){header{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:1fr}.story{font-size:21px}.form-grid{grid-template-columns:1fr}.form-grid .wide{grid-column:auto}.item{align-items:stretch;flex-direction:column}.item-actions button{flex:1}}
+
+.profile-card{display:flex;gap:12px;align-items:center;background:#ecfeff;border:1px solid #a5f3fc;border-radius:14px;padding:12px 14px;margin-bottom:16px}.profile-main{flex:1}.profile-main strong{display:block}.profile-main span{color:var(--muted);font-size:14px}.profile-icon{font-size:28px}
+.kpi4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kpi4>div{background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center}.kpi4 span{display:block;color:var(--muted);font-size:13px}.kpi4 strong{font-size:25px}
+.teacher-note{background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:14px;margin-bottom:18px}.filter-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin:14px 0}.scroll-table{overflow:auto;max-height:58vh;border:1px solid var(--border);border-radius:14px}.teacher-table{width:100%;border-collapse:collapse}.teacher-table th,.teacher-table td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}.teacher-table th{background:#f8fafc;position:sticky;top:0}.progress-bar{width:120px;height:9px;background:#e2e8f0;border-radius:999px;overflow:hidden}.progress-bar span{display:block;height:100%;background:var(--primary)}
+@media(max-width:760px){.kpi4{grid-template-columns:repeat(2,1fr)}.filter-row{grid-template-columns:1fr}.teacher-table{font-size:13px}}
+
+.mypage-btn{background:linear-gradient(135deg,#2f766f,#3f8f86);color:#fff;border-color:#2a6c66;box-shadow:0 5px 14px rgba(47,118,111,.26);font-weight:800}.mypage-btn:hover{background:linear-gradient(135deg,#286a64,#367f77);transform:translateY(-1px)}
+.date-picker{margin:14px 0 18px;padding:16px;background:#f8fbfc;border:1px solid var(--border);border-radius:16px}.date-picker h3{margin:0 0 10px;font-size:16px}.month-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.month-btn{min-height:42px;padding:7px 6px;background:#fff;color:var(--text);border:1px solid var(--border)}.month-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}.day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.day-btn{min-height:42px;padding:7px 4px;background:#fff;color:var(--text);border:1px solid var(--border);border-radius:10px}.day-btn:hover{background:var(--soft);border-color:#9bc7d0}.day-btn.current{outline:3px solid rgba(21,94,117,.22);border-color:var(--primary)}.date-picker-note{margin:10px 0 0;color:var(--muted);font-size:14px}.list-separator{display:flex;align-items:center;gap:10px;color:var(--muted);margin:18px 0 10px}.list-separator:before,.list-separator:after{content:"";height:1px;background:var(--border);flex:1}
+@media(max-width:700px){.month-grid{grid-template-columns:repeat(4,1fr)}.day-grid{grid-template-columns:repeat(7,1fr);gap:5px}.day-btn{min-height:38px;padding:5px 2px}}
+
+.title-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;margin-top:10px}
+.title-search-row input{min-height:46px}
+.title-result{width:100%;text-align:left}
+.open-result-mark{font-weight:800;color:var(--primary);white-space:nowrap}
+@media(max-width:640px){.title-search-row{grid-template-columns:1fr 1fr}.title-search-row input{grid-column:1/-1}.title-search-row button{width:100%}}
+
+.audio-after-reading{margin-top:22px;padding:14px 16px;background:#f0fdfa;border:1px solid #99f6e4;border-radius:14px;align-items:center;justify-content:space-between}.audio-label{font-weight:700;color:#115e59}@media(max-width:700px){.audio-after-reading{align-items:stretch;flex-direction:column}.audio-after-reading button{width:100%}}
+
+.reading-task{margin-top:18px}.story-heading{display:inline-flex;align-items:center;gap:6px;margin:18px 0 8px;padding:7px 12px;border-radius:999px;background:var(--soft);color:var(--primary);font-weight:800}.reading-task .mission{margin-bottom:8px}.reading-task .progress{margin-top:0}.audio-after-reading{margin-top:18px;padding:14px;border-radius:14px;background:#f8fafc;border:1px solid var(--border);align-items:center}.audio-label{font-weight:700;color:var(--muted);margin-right:auto}
+</style></head>
+<body>
+<script src="./assets/xlsx.full.min.js"></script>
+<script src="./assets/jszip.min.js"></script>
+<script>
+const DEFAULT_ARTICLES = [];
+const DEFAULT_IMAGES = {};
+const KEYS={articles:'jm365_articles_v2',records:'jm365_records_v2'};
+const $=id=>document.getElementById(id);
+const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const loadArticles=()=>{try{const v=localStorage.getItem(KEYS.articles);return v?JSON.parse(v):[]}catch{return []}};
+const saveArticles=a=>localStorage.setItem(KEYS.articles,JSON.stringify(a));
+const loadRecords=()=>{try{return JSON.parse(localStorage.getItem(KEYS.records)||'[]')}catch{return[]}};
+const saveRecords=r=>localStorage.setItem(KEYS.records,JSON.stringify(r));
+
+const ImageStore={
+ db:null,
+ async open(){if(this.db)return this.db;this.db=await new Promise((res,rej)=>{const q=indexedDB.open('JareMaga365Images',1);q.onupgradeneeded=()=>{if(!q.result.objectStoreNames.contains('images'))q.result.createObjectStore('images',{keyPath:'name'})};q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)});return this.db},
+ async put(name,blob){const db=await this.open();return new Promise((res,rej)=>{const q=db.transaction('images','readwrite').objectStore('images').put({name,blob});q.onsuccess=()=>res();q.onerror=()=>rej(q.error)})},
+ async get(name){try{const db=await this.open();return await new Promise((res,rej)=>{const q=db.transaction('images').objectStore('images').get(name);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}catch{return null}},
+ async clear(){try{const db=await this.open();return await new Promise((res,rej)=>{const q=db.transaction('images','readwrite').objectStore('images').clear();q.onsuccess=()=>res();q.onerror=()=>rej(q.error)})}catch{}}
+};
+
+const IMAGE_FOLDERS=['images01','images02','images03','images04'];
+function imageCandidates(value){
+  const v=String(value||'').trim();
+  if(!v)return [];
+  if(/^data:|^blob:|^https?:\/\//i.test(v)||v.includes('/'))return [v];
+  return IMAGE_FOLDERS.map(folder=>`./${folder}/${encodeURIComponent(v)}`);
+}
+function showExternalImage(img,wrap,value,title){
+  const candidates=imageCandidates(value);let i=0;
+  img.onerror=()=>{i++;if(i<candidates.length){img.src=candidates[i]}else{img.onerror=null;wrap.classList.add('hidden');img.removeAttribute('src')}};
+  if(!candidates.length){wrap.classList.add('hidden');img.removeAttribute('src');return}
+  img.alt=title||'';img.loading='lazy';wrap.classList.remove('hidden');img.src=candidates[0];
+}
+let articles=loadArticles(),currentIndex=0,startTime=null,timer=null,elapsed=0,selected=[];
+const norm=s=>String(s||'').toLowerCase().replace(/[“”"'.!?(),:;]/g,'').replace(/\s+/g,' ').trim();
+const tokens=t=>String(t).split(/(\s+)/);
+const fmt=ms=>{const s=ms/1000;return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.floor(s%60)).padStart(2,'0')}.${Math.floor(ms%1000/100)}`};
+
+function route(){ showAdmin(); }
+function shell(title,subtitle,nav=''){
+ document.body.innerHTML=`<header><div><h1>${title}</h1><p>${subtitle}</p></div><nav>${nav}</nav></header><main id="main"></main>`;
+}
+async function showReader(){
+ await ensureProfile();
+ shell('じゃれマガ Best 365','Spring・Summerを統合。季節をまたいで学べます。',
+ `<button class="secondary" id="listBtn">記事一覧</button><a class="btn mypage-btn" href="#mypage">📊 マイページ</a>`);
+ const main=$('main');
+ if(!articles.length){main.innerHTML='<section class="card"><h2>記事がありません</h2><p>管理者が記事を登録するまでお待ちください。</p></section>';return}
+ const today=new Date(),key=String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+ const f=articles.findIndex(a=>a.date===key);if(f>=0)currentIndex=f;
+ const p=loadProfile();
+ main.innerHTML=`<div class="profile-card"><div class="profile-icon">👤</div><div class="profile-main"><strong>${escapeHtml(p.className)} ${escapeHtml(p.name)}</strong><span>ID：${escapeHtml(p.studentId)}</span></div><button class="secondary" id="profileBtn">変更</button></div><section class="card" id="readerCard">
+  <div class="meta"><span class="badge" id="date"></span><span class="badge soft" id="genre"></span><span class="badge soft" id="level"></span></div>
+  <h2 id="title"></h2><div class="image-wrap hidden" id="imageWrap"><img id="storyImage"></div>
+  <div class="audio-row"><button class="primary" id="audioBtn">▶ 音声を再生</button><audio id="audio"></audio></div>
+  <section class="reading-task">
+    <div class="progress"><strong>「読み始める」を押して、まず本文を読もう</strong><div class="timer" id="timer">00:00.0</div><button class="primary" id="startBtn">読み始める</button></div>
+    <div class="story-heading">📖 本文</div>
+    <article class="story" id="story"></article>
+    <div class="mission"><strong>Today's Question</strong><p id="question"></p></div>
+    <section class="panel hidden" id="questionPanel"><div class="selection" id="selection">本文中の答えをタップしてください</div><div class="button-row"><button class="secondary" id="clearBtn">選択解除</button><button class="primary" id="checkBtn">答えを確認</button></div><p class="judge" id="judge"></p></section>
+  </section>
+  <section class="panel hidden" id="resultPanel"><h3>Mission Complete!</h3><div class="stats"><div><span>時間</span><strong id="resultTime"></strong></div><div><span>語数</span><strong id="resultWords"></strong></div><div><span>WPM</span><strong id="resultWpm"></strong></div></div><div class="button-row"><button class="primary" id="saveBtn">記録を保存</button><button class="secondary" id="nextBtn">次の記事</button></div></section>
+ </section>
+ <dialog id="listDialog"><div class="dialog-head"><h2>📅 読みたい日を選ぶ</h2><button class="secondary" id="closeList">閉じる</button></div><div class="date-picker"><h3>1. 月を選ぶ</h3><div class="month-grid" id="monthGrid"></div><h3 style="margin-top:16px">2. 日を選ぶ</h3><div class="day-grid" id="dayGrid"></div><p class="date-picker-note" id="datePickerNote">月を選ぶと、その月の記事が表示されます。</p></div><div class="list-separator">🔎 タイトルから探す</div><div class="title-search-row"><input type="search" id="search" placeholder="タイトルを入力"><button class="primary" id="titleSearchBtn">検索</button><button class="secondary" id="titleSearchClearBtn">クリア</button></div><p class="date-picker-note" id="searchResultNote">タイトルを入力して検索してください。</p><div class="list" id="articleList"></div></dialog>`;
+ $('profileBtn').onclick=editProfile;$('listBtn').onclick=()=>{$('listDialog').showModal();openDatePicker()};$('closeList').onclick=()=>$('listDialog').close();
+ const runTitleSearch=()=>buildList($('search').value);
+ $('titleSearchBtn').onclick=runTitleSearch;
+ $('titleSearchClearBtn').onclick=()=>{$('search').value='';buildList('');$('search').focus()};
+ $('search').oninput=runTitleSearch;
+ $('search').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();runTitleSearch()}};
+ await renderArticle();
+}
+async function renderArticle(){
+ const a=articles[currentIndex];selected=[];startTime=null;elapsed=0;clearInterval(timer);
+ $('date').textContent=a.date;$('genre').textContent=a.genre||'';$('level').textContent=a.level||'';$('title').textContent=a.title;$('question').textContent=a.question;
+ $('timer').textContent='00:00.0';$('startBtn').disabled=false;$('questionPanel').classList.add('hidden');$('resultPanel').classList.add('hidden');$('judge').textContent='';
+ const ts=tokens(a.text);$('story').innerHTML=ts.map((x,i)=>/^\s+$/.test(x)?escapeHtml(x):`<span class="word" data-i="${i}">${escapeHtml(x)}</span>`).join('');
+ $('story').querySelectorAll('.word').forEach(e=>e.onclick=()=>{if(!startTime)return;const n=+e.dataset.i,p=selected.indexOf(n);p>=0?selected.splice(p,1):selected.push(n);selected.sort((x,y)=>x-y);refreshSelection()});
+ const custom=await ImageStore.get(a.image);if(custom?.blob){$('storyImage').onerror=null;$('storyImage').src=URL.createObjectURL(custom.blob);$('storyImage').alt=a.title;$('storyImage').loading='lazy';$('imageWrap').classList.remove('hidden')}else{showExternalImage($('storyImage'),$('imageWrap'),a.image,a.title)};
+ $('audio').src=a.audioURL||a.audio||'';$('audioBtn').disabled=!$('audio').src;
+ $('audioBtn').onclick=()=>{const p=$('audio');if(p.paused){p.play();$('audioBtn').textContent='⏸ 一時停止'}else{p.pause();$('audioBtn').textContent='▶ 音声を再生'}};
+ $('startBtn').onclick=()=>{startTime=performance.now();$('startBtn').disabled=true;$('questionPanel').classList.remove('hidden');timer=setInterval(()=>{elapsed=performance.now()-startTime;$('timer').textContent=fmt(elapsed)},100)};
+ $('clearBtn').onclick=()=>{selected=[];refreshSelection()};
+ $('checkBtn').onclick=checkAnswer;$('nextBtn').onclick=()=>{currentIndex=(currentIndex+1)%articles.length;renderArticle();scrollTo({top:0,behavior:'smooth'})};
+ $('saveBtn').onclick=saveRecord;
+}
+function refreshSelection(){const ts=tokens(articles[currentIndex].text);$('story').querySelectorAll('.word').forEach(e=>e.classList.toggle('selected',selected.includes(+e.dataset.i)));$('selection').textContent='選択した語句：'+(selected.length?selected.map(i=>ts[i]).join(' '):'なし')}
+function checkAnswer(){
+ const a=articles[currentIndex],ts=tokens(a.text),chosen=selected.map(i=>ts[i]).join(' '),chosenN=norm(chosen),coreN=norm(a.answerCore),mins=String(a.acceptableAnswers||'').split(/[|;\n]/).map(norm).filter(Boolean);
+ const ok=chosenN===coreN||mins.some(m=>chosenN.includes(m));
+ $('judge').textContent=ok?'正解です！必要な情報を見つけました。':'もう一度、答えに必要な語句を選びましょう。';$('judge').className='judge '+(ok?'ok':'ng');
+ if(ok){clearInterval(timer);elapsed=performance.now()-startTime;startTime=null;const wc=String(a.text).trim().split(/\s+/).filter(Boolean).length,wpm=Math.max(1,Math.round(wc/(elapsed/60000)));$('resultTime').textContent=fmt(elapsed);$('resultWords').textContent=wc;$('resultWpm').textContent=wpm;$('resultPanel').dataset.wpm=wpm;$('resultPanel').dataset.elapsed=Math.round(elapsed);$('resultPanel').classList.remove('hidden');$('resultPanel').scrollIntoView({behavior:'smooth'})}
+}
+function saveRecord(){const a=articles[currentIndex],p=loadProfile(),r=loadRecords();r.push({key:a.id+'-'+Date.now(),studentId:p.studentId,studentName:p.name,className:p.className,articleId:a.id,title:a.title,date:a.date,wpm:+$('resultPanel').dataset.wpm,elapsed:+$('resultPanel').dataset.elapsed,savedAt:new Date().toISOString()});saveRecords(r);$('saveBtn').textContent='保存しました'}
+function openDatePicker(){
+ const current=articles[currentIndex],month=Number(String(current?.date||'01-01').slice(0,2))||1;
+ $('search').value='';renderMonths(month);renderDays(month);buildList('');
+}
+function renderMonths(activeMonth){
+ $('monthGrid').innerHTML=Array.from({length:12},(_,i)=>i+1).map(m=>`<button class="month-btn ${m===activeMonth?'active':''}" data-month="${m}">${m}月</button>`).join('');
+ $('monthGrid').querySelectorAll('[data-month]').forEach(b=>b.onclick=()=>{const m=Number(b.dataset.month);renderMonths(m);renderDays(m)});
+}
+function renderDays(month){
+ const monthText=String(month).padStart(2,'0'),items=articles.map((a,i)=>({a,i})).filter(x=>String(x.a.date).startsWith(monthText+'-')).sort((x,y)=>String(x.a.date).localeCompare(String(y.a.date)));
+ $('dayGrid').innerHTML=items.map(x=>{const day=Number(String(x.a.date).slice(3,5));return `<button class="day-btn ${x.i===currentIndex?'current':''}" data-i="${x.i}" title="${escapeHtml(x.a.title)}">${day}</button>`}).join('')||'<p>この月の記事はありません。</p>';
+ $('datePickerNote').textContent=`${month}月の記事：${items.length}件　日付を押すとすぐに開きます。`;
+ $('dayGrid').querySelectorAll('[data-i]').forEach(e=>e.onclick=()=>goToArticle(Number(e.dataset.i)));
+}
+function goToArticle(i){currentIndex=i;$('listDialog').close();renderArticle();scrollTo({top:0,behavior:'smooth'})}
+function buildList(q){
+ const raw=String(q||'').trim();
+ const normalizeSearch=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
+ const query=normalizeSearch(raw);
+ const results=query?articles.map((a,i)=>({a,i})).filter(x=>normalizeSearch(x.a.title).includes(query)||normalizeSearch(x.a.date).includes(query)||normalizeSearch(x.a.genre||'').includes(query)):[];
+ $('searchResultNote').textContent=query?`${results.length}件見つかりました。下のタイトルを押すと記事が開きます。`:'タイトルを入力して検索してください。';
+ $('articleList').innerHTML=query?(results.length?results.map(x=>`<button class="item secondary title-result" data-i="${x.i}"><span class="item-main"><strong>${escapeHtml(x.a.title)}</strong><span>${escapeHtml(x.a.date)}｜${escapeHtml(x.a.genre||'')}｜${escapeHtml(x.a.level||'')}</span></span><span class="open-result-mark">開く ›</span></button>`).join(''):'<p class="date-picker-note">該当する記事がありません。別の語で検索してください。</p>'):'';
+ $('articleList').querySelectorAll('[data-i]').forEach(e=>e.onclick=()=>goToArticle(Number(e.dataset.i)));
+}
+
+function showMyPage(){
+ const p=loadProfile(),r=loadRecords().filter(x=>!x.studentId||x.studentId===p.studentId).sort((a,b)=>b.savedAt.localeCompare(a.savedAt)),avg=r.length?Math.round(r.reduce((s,x)=>s+x.wpm,0)/r.length):0,best=r.length?Math.max(...r.map(x=>x.wpm)):0,unique=new Set(r.map(x=>x.articleId)).size;
+ shell('マイページ','自分の読書記録とWPM',`<a class="btn secondary" href="#reader">← 学習画面に戻る</a>`);
+ $('main').innerHTML=`<div class="profile-card"><div class="profile-icon">👤</div><div class="profile-main"><strong>${escapeHtml(p.className)} ${escapeHtml(p.name)}</strong><span>ID：${escapeHtml(p.studentId)}</span></div></div>
+ <section class="card"><div class="kpi4"><div><span>挑戦回数</span><strong>${r.length}</strong></div><div><span>読了記事</span><strong>${unique}</strong></div><div><span>平均WPM</span><strong>${avg}</strong></div><div><span>最高WPM</span><strong>${best}</strong></div></div><div class="button-row"><button class="primary" id="exportUsage">📤 利用記録を先生に渡す</button></div></section>
+ <section class="card"><h2>学習履歴</h2><div class="list">${r.length?r.map(x=>`<div class="item"><span class="item-main"><strong>${escapeHtml(x.title)}</strong><span>${escapeHtml(x.date)}｜${x.wpm} WPM｜${new Date(x.savedAt).toLocaleString()}</span></span></div>`).join(''):'<p>まだ記録がありません。</p>'}</div></section>`;
+ $('exportUsage').onclick=()=>downloadFile(`JareMaga_${p.className}_${p.studentId}_${p.name}.json`,JSON.stringify({type:'JareMagaUsage',profile:p,records:r,exportedAt:new Date().toISOString()},null,2),'application/json');
+}
+
+let editingId=null;
+function showAdmin(){
+ shell('じゃれマガ 管理画面','インストール済みストーリーを検索・分類して管理',`<a class="btn secondary" href="index.html">学習画面</a>`);
+ const genres=[...new Set(articles.map(a=>String(a.genre||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ja'));
+ const levels=[...new Set(articles.map(a=>String(a.level||'').trim()).filter(Boolean))].sort();
+ $('main').innerHTML=`<section class="card"><h2>📊 Excelを追加・更新する</h2><input type="file" id="excelFile" accept=".xlsx,.xls"><div class="button-row"><button class="primary" id="importExcel">Excelを追加・更新</button></div><p id="excelStatus"></p></section>
+ <section class="card"><h2>🖼️ 画像の参照</h2><div class="notice">通常はGitHub上の <span class="admin-direct">images01</span>〜<span class="admin-direct">images04</span> フォルダを自動参照します。Excelのimage列には <span class="admin-direct">0101.jpg</span> のようにファイル名だけを入力してください。</div><details style="margin-top:12px"><summary>端末内だけで使う画像ZIPを読み込む</summary><input type="file" id="zipFile" accept=".zip" style="margin-top:10px"><div class="button-row"><button class="primary" id="importZip">画像ZIPを読み込む</button></div><p id="zipStatus"></p></details></section>
+ <section class="card"><h2>登録状況</h2><div class="stats"><div><span>記事数</span><strong>${articles.length}</strong></div><div><span>学習記録</span><strong>${loadRecords().length}</strong></div><div><span>初期記事</span><strong>0</strong></div></div><div class="button-row"><button class="primary" id="addBtn">＋ 新しい記事</button></div></section>
+ <section class="card"><h2>🧹 データ管理</h2><div class="button-row"><button class="danger" id="resetHistoryBtn">学習履歴をリセット</button><button class="danger" id="resetBtn">記事を0話に戻す</button></div><p class="date-picker-note">「学習履歴をリセット」は、読了記録・WPM・正答履歴のみを削除します。記事や画像、学習者情報は残ります。</p><p class="date-picker-note">「記事を0話に戻す」は、インストール済みの記事と画像をすべて削除します。学習履歴は削除しません。</p></section>
+ <section class="card"><h2>🔎 ストーリーを検索・分類</h2>
+ <div class="filter-row" style="grid-template-columns:2fr 1fr 1fr 1fr">
+  <input type="search" id="adminSearch" placeholder="タイトル・日付・ID・本文・質問で検索">
+  <select id="genreFilter"><option value="">全ジャンル</option>${genres.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('')}</select>
+  <select id="levelFilter"><option value="">全レベル</option>${levels.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('')}</select>
+  <select id="monthFilter"><option value="">全ての月</option>${Array.from({length:12},(_,i)=>String(i+1).padStart(2,'0')).map(m=>`<option value="${m}">${Number(m)}月</option>`).join('')}</select>
+ </div>
+ <div class="button-row"><button class="secondary" id="clearFilters">条件をクリア</button><select id="sortOrder" style="width:auto"><option value="dateAsc">日付順</option><option value="dateDesc">日付の新しい順</option><option value="titleAsc">タイトル順</option><option value="genreAsc">ジャンル順</option></select></div>
+ <p id="adminResultCount" class="date-picker-note"></p><div class="list" id="adminList"></div></section>
+ <dialog id="editDialog"><div class="dialog-head"><h2 id="editTitle">記事を編集</h2><button class="secondary" id="closeEdit">閉じる</button></div><div class="form-grid" id="formGrid"></div><p class="judge" id="validation"></p><div class="button-row"><button class="primary" id="saveArticle">保存</button><button class="danger" id="deleteArticle">この記事を削除</button></div></dialog>`;
+ $('importExcel').onclick=importExcel;$('importZip').onclick=importZip;$('addBtn').onclick=()=>openEditor(null);$('resetHistoryBtn').onclick=resetLearningHistory;$('resetBtn').onclick=resetAll;
+ ['adminSearch','genreFilter','levelFilter','monthFilter','sortOrder'].forEach(id=>$(id).oninput=renderAdminList);
+ $('clearFilters').onclick=()=>{$('adminSearch').value='';$('genreFilter').value='';$('levelFilter').value='';$('monthFilter').value='';$('sortOrder').value='dateAsc';renderAdminList()};
+ $('closeEdit').onclick=()=>$('editDialog').close();$('saveArticle').onclick=saveArticle;$('deleteArticle').onclick=deleteArticle;renderAdminList();
+}
+function renderAdminList(){
+ const q=String($('adminSearch')?.value||'').toLowerCase().trim(),genre=$('genreFilter')?.value||'',level=$('levelFilter')?.value||'',month=$('monthFilter')?.value||'',sort=$('sortOrder')?.value||'dateAsc';
+ let list=articles.filter(a=>{
+  const hay=[a.title,a.date,a.id,a.genre,a.level,a.year,a.source,a.text,a.question].join(' ').toLowerCase();
+  return (!q||hay.includes(q))&&(!genre||String(a.genre||'')===genre)&&(!level||String(a.level||'')===level)&&(!month||String(a.date||'').startsWith(month+'-'));
+ });
+ list.sort((a,b)=>sort==='dateDesc'?String(b.date).localeCompare(String(a.date)):sort==='titleAsc'?String(a.title).localeCompare(String(b.title),'ja'):sort==='genreAsc'?(String(a.genre).localeCompare(String(b.genre),'ja')||String(a.date).localeCompare(String(b.date))):String(a.date).localeCompare(String(b.date)));
+ $('adminResultCount').textContent=`${list.length}件を表示（全${articles.length}件）`;
+ $('adminList').innerHTML=list.length?list.map(a=>`<div class="item"><span class="item-main"><strong>${escapeHtml(a.title)}</strong><span>${escapeHtml(a.date)}｜ID:${escapeHtml(a.id)}｜${escapeHtml(a.genre||'未分類')}｜${escapeHtml(a.level||'レベル未設定')}</span></span><span class="item-actions"><button class="secondary edit" data-id="${escapeHtml(a.id)}">編集</button><button class="danger del" data-id="${escapeHtml(a.id)}">削除</button></span></div>`).join(''):'<p class="date-picker-note">条件に一致するストーリーがありません。</p>';
+ document.querySelectorAll('.edit').forEach(b=>b.onclick=()=>openEditor(b.dataset.id));document.querySelectorAll('.del').forEach(b=>b.onclick=()=>quickDelete(b.dataset.id));
+}
+const fields=[['id','ID'],['date','日付'],['title','タイトル'],['genre','ジャンル'],['level','レベル'],['year','年'],['source','出典'],['text','本文','wide',8],['questionType','質問タイプ'],['question','Display Question','wide',3],['answerCore','answerCore（完全正解）','wide',3],['acceptableAnswers','acceptableAnswers（最低限必要な語句。複数は | 区切り）','wide',4],['audioURL','audioURL','wide'],['image','画像ファイル名']];
+function openEditor(id){editingId=id;const a=id?articles.find(x=>x.id===id):{questionType:'open'};$('editTitle').textContent=id?'記事を編集':'新しい記事';$('formGrid').innerHTML=fields.map(([k,label,wide,rows])=>`<label class="${wide||''}">${label}${rows?`<textarea id="f_${k}" rows="${rows}"></textarea>`:`<input type="text" id="f_${k}">`}</label>`).join('');fields.forEach(([k])=>$('f_'+k).value=a?.[k]??'');$('deleteArticle').classList.toggle('hidden',!id);$('validation').textContent='';$('editDialog').showModal()}
+function getForm(){const a={};fields.forEach(([k])=>a[k]=$('f_'+k).value);a.audio=a.audioURL;return a}
+function validate(a){const e=[];if(!a.id.trim())e.push('IDは必須です。');if(!a.title.trim())e.push('タイトルは必須です。');if(!a.text)e.push('本文は必須です。');if(!a.question.trim())e.push('Display Questionは必須です。');if(!a.answerCore.trim())e.push('answerCoreは必須です。');if(a.answerCore&&!a.text.includes(a.answerCore))e.push('answerCoreが本文中にありません。');String(a.acceptableAnswers||'').split('|').map(x=>x.trim()).filter(Boolean).forEach(x=>{if(!a.text.includes(x))e.push(`最低限正解「${x}」が本文中にありません。`)});return [...new Set(e)]}
+function saveArticle(){const a=getForm(),e=validate(a);if(e.length){$('validation').textContent=e.join(' ');$('validation').className='judge ng';return}if(editingId&&editingId!==a.id&&articles.some(x=>x.id===a.id)){$('validation').textContent='変更後のIDは使用済みです。';$('validation').className='judge ng';return}if(editingId)articles=articles.filter(x=>x.id!==editingId);articles.push(a);saveArticles(articles);$('editDialog').close();showAdmin()}
+function deleteArticle(){if(editingId)quickDelete(editingId)}
+function quickDelete(id){if(!confirm(`ID ${id} の記事を削除しますか？`))return;articles=articles.filter(x=>x.id!==id);saveArticles(articles);if($('editDialog')?.open)$('editDialog').close();showAdmin()}
+async function importExcel(){const f=$('excelFile').files[0];if(!f)return alert('Excelファイルを選択してください。');try{const wb=XLSX.read(await f.arrayBuffer(),{type:'array',cellDates:false}),ws=wb.Sheets[wb.SheetNames[0]],rows=XLSX.utils.sheet_to_json(ws,{defval:'',raw:false});if(!rows.length)throw Error('データがありません。');const required=['date','id','title','text','question','answerCore','acceptableAnswers','image'],missing=required.filter(k=>!(k in rows[0]));if(missing.length)throw Error('不足列: '+missing.join(', '));const incoming=rows.map(r=>({date:String(r.date||''),id:String(r.id||''),title:String(r.title||''),genre:String(r.genre||''),level:String(r.level||''),year:String(r.year||''),source:String(r.source||''),text:String(r.text||''),questionType:String(r.questionType||'open'),question:String(r.question||''),answerCore:String(r.answerCore||''),acceptableAnswers:String(r.acceptableAnswers||''),audioURL:String(r.audioURL||r.audio||''),audio:String(r.audioURL||r.audio||''),image:String(r.image||'')})).filter(a=>a.id&&a.text);const map=new Map(articles.map(a=>[a.id,a]));incoming.forEach(a=>map.set(a.id,a));articles=[...map.values()].sort((a,b)=>a.date.localeCompare(b.date));saveArticles(articles);$('excelStatus').textContent=`${incoming.length}件を追加・更新し、合計${articles.length}件になりました。`;setTimeout(showAdmin,400)}catch(e){$('excelStatus').textContent='エラー: '+e.message}}
+async function importZip(){const f=$('zipFile').files[0];if(!f)return alert('画像ZIPを選択してください。');try{const z=await JSZip.loadAsync(await f.arrayBuffer());await ImageStore.clear();let n=0;for(const [name,o] of Object.entries(z.files)){if(o.dir)continue;const base=name.split('/').pop();if(!/\.(png|jpe?g|webp)$/i.test(base))continue;await ImageStore.put(base,await o.async('blob'));n++}$('zipStatus').textContent=`${n}点の画像を読み込みました。`}catch(e){$('zipStatus').textContent='エラー: '+e.message}}
+function resetLearningHistory(){
+ if(!confirm('学習履歴をすべて削除します。\n\n読了記録・WPM・正答履歴が削除されます。\n記事や画像、学習者情報は残ります。\n\nこの操作は元に戻せません。よろしいですか？'))return;
+ saveRecords([]);
+ alert('学習履歴をリセットしました。');
+ showAdmin();
+}
+async function resetAll(){if(!confirm('インストール済みの記事と画像をすべて削除し、0話に戻します。\n学習履歴は削除されません。\n\nこの操作は元に戻せません。よろしいですか？'))return;localStorage.setItem(KEYS.articles,'[]');await ImageStore.clear();articles=[];showAdmin()}
+
+const PROFILE_KEY='jm365_profile_v1',IMPORTED_KEY='jm365_imported_records_v1';
+function loadProfile(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||'{"studentId":"","name":"","className":""}')}catch{return{studentId:'',name:'',className:''}}}
+function saveProfile(p){localStorage.setItem(PROFILE_KEY,JSON.stringify(p))}
+async function ensureProfile(){const p=loadProfile();if(p.studentId&&p.name)return true;return new Promise(resolve=>{const d=document.createElement('dialog');d.innerHTML=`<h2>学習者情報</h2><p>学習記録を残すために入力してください。</p><div class="form-grid"><label>ID・出席番号<input id="pi"></label><label>氏名<input id="pn"></label><label class="wide">学級<input id="pc" placeholder="例：3年2組"></label></div><p class="judge" id="pe"></p><div class="button-row"><button class="primary" id="ps">保存して始める</button></div>`;document.body.appendChild(d);d.showModal();d.querySelector('#ps').onclick=()=>{const x={studentId:d.querySelector('#pi').value.trim(),name:d.querySelector('#pn').value.trim(),className:d.querySelector('#pc').value.trim()};if(!x.studentId||!x.name){d.querySelector('#pe').textContent='IDと氏名を入力してください。';d.querySelector('#pe').className='judge ng';return}saveProfile(x);d.close();d.remove();resolve(true)}})}
+function editProfile(){const p=loadProfile(),d=document.createElement('dialog');d.innerHTML=`<div class="dialog-head"><h2>学習者情報を変更</h2><button class="secondary" id="px">閉じる</button></div><div class="form-grid"><label>ID・出席番号<input id="pi" value="${escapeHtml(p.studentId)}"></label><label>氏名<input id="pn" value="${escapeHtml(p.name)}"></label><label class="wide">学級<input id="pc" value="${escapeHtml(p.className)}"></label></div><div class="button-row"><button class="primary" id="ps">保存</button></div>`;document.body.appendChild(d);d.showModal();d.querySelector('#px').onclick=()=>{d.close();d.remove()};d.querySelector('#ps').onclick=()=>{saveProfile({studentId:d.querySelector('#pi').value.trim(),name:d.querySelector('#pn').value.trim(),className:d.querySelector('#pc').value.trim()});d.close();d.remove();showReader()}}
+function downloadFile(name,text,type){const b=new Blob([text],{type}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function importedRecords(){try{return JSON.parse(localStorage.getItem(IMPORTED_KEY)||'[]')}catch{return[]}}
+function allTeacherRecords(){return [...loadRecords(),...importedRecords()]}
+function summaries(records){const m=new Map();records.forEach(r=>{const k=`${r.className||''}|${r.studentId||''}|${r.studentName||''}`;if(!m.has(k))m.set(k,{className:r.className||'',studentId:r.studentId||'',studentName:r.studentName||'',records:[]});m.get(k).records.push(r)});return [...m.values()].map(s=>({ ...s,attempts:s.records.length,unique:new Set(s.records.map(r=>r.articleId)).size,avg:s.records.length?Math.round(s.records.reduce((a,r)=>a+Number(r.wpm||0),0)/s.records.length):0,last:s.records.map(r=>r.savedAt).sort().pop()||''}))}
+function showTeacher(){const records=allTeacherRecords(),ss=summaries(records);shell('教員用 利用状況','生徒ごとの読了数・WPM・最終利用を確認',`<a class="btn secondary" href="#reader">学習画面</a>`);$('main').innerHTML=`<section class="teacher-note"><strong>別端末の記録</strong><p>生徒はマイページから利用記録JSONを提出します。教員は複数ファイルをまとめて取り込めます。</p></section><section class="card"><div class="kpi4"><div><span>生徒数</span><strong>${ss.length}</strong></div><div><span>総挑戦回数</span><strong>${records.length}</strong></div><div><span>読了記事合計</span><strong>${ss.reduce((a,x)=>a+x.unique,0)}</strong></div><div><span>全体平均WPM</span><strong>${records.length?Math.round(records.reduce((a,x)=>a+Number(x.wpm||0),0)/records.length):0}</strong></div></div><div class="button-row"><label class="btn primary">📥 生徒記録を取り込む<input id="usageFiles" type="file" accept=".json" multiple hidden></label><button class="secondary" id="csvBtn">CSVを書き出す</button><button class="danger" id="clearImp">取込記録を削除</button></div></section><section class="card"><div class="filter-row"><input id="ts" type="search" placeholder="学級・氏名・IDで検索"><select id="tc"><option value="">全学級</option></select><select id="to"><option value="name">氏名順</option><option value="unique">読了数順</option><option value="wpm">WPM順</option><option value="last">最終利用順</option></select></div><div class="scroll-table"><table class="teacher-table"><thead><tr><th>学級</th><th>ID</th><th>氏名</th><th>挑戦</th><th>読了</th><th>進捗</th><th>平均WPM</th><th>最終利用</th></tr></thead><tbody id="tb"></tbody></table></div></section>`;const cls=[...new Set(ss.map(x=>x.className).filter(Boolean))].sort();$('tc').innerHTML+=cls.map(c=>`<option>${escapeHtml(c)}</option>`).join('');const render=()=>{const q=$('ts').value.toLowerCase(),c=$('tc').value,o=$('to').value;let x=summaries(allTeacherRecords()).filter(s=>(!q||`${s.className} ${s.studentId} ${s.studentName}`.toLowerCase().includes(q))&&(!c||s.className===c));x.sort(o==='unique'?(a,b)=>b.unique-a.unique:o==='wpm'?(a,b)=>b.avg-a.avg:o==='last'?(a,b)=>String(b.last).localeCompare(String(a.last)):(a,b)=>`${a.className}${a.studentName}`.localeCompare(`${b.className}${b.studentName}`,'ja'));$('tb').innerHTML=x.map(s=>{const pct=Math.min(100,Math.round(s.unique/Math.max(1,articles.length)*100));return `<tr><td>${escapeHtml(s.className)}</td><td>${escapeHtml(s.studentId)}</td><td><strong>${escapeHtml(s.studentName)}</strong></td><td>${s.attempts}</td><td>${s.unique}</td><td><div class="progress-bar"><span style="width:${pct}%"></span></div><small>${pct}%</small></td><td>${s.avg}</td><td>${s.last?new Date(s.last).toLocaleString():''}</td></tr>`}).join('')};$('ts').oninput=render;$('tc').onchange=render;$('to').onchange=render;render();$('usageFiles').onchange=async e=>{let imp=importedRecords();for(const f of e.target.files){try{const d=JSON.parse(await f.text());if(d.type==='JareMagaUsage'&&Array.isArray(d.records))imp.push(...d.records)}catch{}}const u=new Map(imp.map(r=>[r.key||`${r.studentId}-${r.articleId}-${r.savedAt}`,r]));localStorage.setItem(IMPORTED_KEY,JSON.stringify([...u.values()]));showTeacher()};$('clearImp').onclick=()=>{if(confirm('取り込んだ記録を削除しますか？')){localStorage.removeItem(IMPORTED_KEY);showTeacher()}};$('csvBtn').onclick=()=>{const rows=[['学級','ID','氏名','挑戦回数','読了記事数','平均WPM','最終利用'],...summaries(allTeacherRecords()).map(s=>[s.className,s.studentId,s.studentName,s.attempts,s.unique,s.avg,s.last])],csv='\ufeff'+rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\n');downloadFile('JareMaga_利用状況.csv',csv,'text/csv')}}
+addEventListener('hashchange',route);addEventListener('DOMContentLoaded',route);
+</script>
+</body></html>
